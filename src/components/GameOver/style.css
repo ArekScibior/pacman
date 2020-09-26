@@ -1,0 +1,35 @@
+.hide {
+    display: none;
+}
+
+.wrapper {
+    width: 98vw;
+    height: 90vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.gameOver {
+    width:40%;
+    height: 30%;
+    border: 5px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    background-color: #FF0000;
+}
+
+.headerInfo {
+    color: #000;
+    font-size:40px;
+    font-weight: bold;
+}
+
+.score {
+    color:#fff;
+    font-size:20px;
+}

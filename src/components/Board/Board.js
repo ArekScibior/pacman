@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import Pacman from '../Pacman';
 import Ghost from '../Ghost'
 import Food from '../Food'
+import GameOver from '../GameOver'
 import './style.css';
 
 class Board extends Component {
     constructor(props) {
         super(props);
         this.pacmanRef = React.createRef();
+        this.ghostRefRed = React.createRef();
+        this.ghostRefBlue = React.createRef();
+        this.ghostRefBlack = React.createRef();
+        this.gameOverRef = React.createRef();
 
         const {foodSize, topScoreboardHeight} = this.props
         this.foods = []
@@ -16,8 +21,6 @@ class Board extends Component {
             (window.innerWidth - foodSize) 
             * (window.innerHeight - topScoreboardHeight)   
         ) / (foodSize * foodSize) - 1
-        console.log('width',window.innerWidth - foodSize)
-        console.log('heig',window.innerHeight - topScoreboardHeight)
         for(let i=0 ; i < this.amountFood; i++) {
             this['food-'+i] = React.createRef();
         }
@@ -32,10 +35,27 @@ class Board extends Component {
     }
 
     lookForEat = () => {
+        const blueGhostX = this.ghostRefBlue.current.state.position.left
+        const blueGhostY = this.ghostRefBlue.current.state.position.top
+
+        const redGhostX = this.ghostRefRed.current.state.position.left
+        const redGhostY = this.ghostRefRed.current.state.position.top
+
+        const blackGhostX = this.ghostRefBlack.current.state.position.left
+        const blackGhostY = this.ghostRefBlack.current.state.position.top
+
         const pacmanX = this.pacmanRef.current.state.position.left;
         const pacmanY = this.pacmanRef.current.state.position.top;
         const pacmanSize = this.pacmanRef.current.props.size;
-
+       
+        const gameOver = this.gameOverRef.current
+        if (
+            (pacmanX === blueGhostX && pacmanY === blueGhostY)
+            || (pacmanX === redGhostX && pacmanY === redGhostY)
+            || (pacmanX === blackGhostX && pacmanY === blackGhostY)
+            ) {
+                gameOver.collision();
+        }
         const lastPacmanX = pacmanX + pacmanSize / 2;
         const lastPacmanY = pacmanY + pacmanSize / 2;
         for(let i=0; i <= this.amountFood; i++) {
@@ -63,11 +83,10 @@ class Board extends Component {
         }
     } 
     render () {
-        const {foodSize, border, topScoreboardHeight} = this.props
+        const {foodSize, topScoreboardHeight} = this.props
         let foods = [];
         let currentTop = 0
         let currentLeft = 1 * foodSize;
-        console.log(this.amountFood)
         for (let i = 0; i < this.amountFood; i++) {
             if (currentLeft + foodSize >= window.innerWidth) {
                 currentTop += foodSize;
@@ -88,10 +107,17 @@ class Board extends Component {
         return (
             <div className="board">
                 {foods}
-                <Pacman ref={this.pacmanRef}/>
-                <Ghost color="red" />
-                <Ghost color="black" />
-                <Ghost color="blue"/>
+                <GameOver ref={this.gameOverRef}/>
+                <Pacman stop={this.gameOverRef} ref={this.pacmanRef}/>
+                <Ghost position={{top: 500, left: 600}} stop={this.gameOverRef} ref={this.ghostRefRed} color="Red" />
+                {/* <Ghost position={{top: 200, left: 100}} stop={this.gameOverRef} ref={this.ghostRefRed} color="Red" />
+                <Ghost position={{top: 700, left: 350}} stop={this.gameOverRef} ref={this.ghostRefRed} color="Red" /> */}
+                <Ghost position={{top: 100, left: 1600}} stop={this.gameOverRef} ref={this.ghostRefBlack} color="Black" />
+                {/* <Ghost position={{top: 500, left: 100}} stop={this.gameOverRef} ref={this.ghostRefBlack} color="Black" />
+                <Ghost position={{top: 650, left: 1100}} stop={this.gameOverRef} ref={this.ghostRefBlack} color="Black" /> */}
+                <Ghost position={{top: 250, left: 700}} stop={this.gameOverRef} ref={this.ghostRefBlue} color="Blue"/>
+                {/* <Ghost position={{top: 250, left: 1200}} stop={this.gameOverRef} ref={this.ghostRefBlue} color="Blue"/>
+                <Ghost position={{top: 200, left: 400}} stop={this.gameOverRef} ref={this.ghostRefBlue} color="Blue"/> */}
                 
             </div>
         )

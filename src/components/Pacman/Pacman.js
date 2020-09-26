@@ -15,55 +15,59 @@ class Pacman extends Component {
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
         //here passed props (we have default props)
-        const { step, border, size, topScoreboardHeight } = this.props;
-        
-        if (event.key === 'ArrowRight') {
-            let left = ''
-            if (currentLeft + step > window.innerWidth - border - size) {
-                left = currentLeft
-            } else {
-                left = currentLeft + step
+        const { step, border, size, topScoreboardHeight, stop } = this.props;
+        if (stop && stop.current.state.gameOver) {
+            return;
+        } else {
+            if (event.key === 'ArrowRight') {
+                let left = ''
+                if (currentLeft + step > window.innerWidth - border - size) {
+                    left = currentLeft
+                } else {
+                    left = currentLeft + step
+                }
+    
+                this.setState({
+                    position: {
+                        top: currentTop,
+                        left: left,
+                    },
+                    direction: 'right'
+                });
+            } else if (event.key === 'ArrowDown') {
+                let top = ''
+                if (currentTop + step > window.innerHeight - size - border - topScoreboardHeight) {
+                    top = currentTop
+                } else {
+                    top = currentTop + step
+                }
+    
+                this.setState({
+                    position: {
+                        top: top,
+                        left: currentLeft
+                    },
+                    direction: 'down'
+                });
+            } else if (event.key === 'ArrowLeft') {
+                this.setState({
+                    position: {
+                        top: currentTop,
+                        left: Math.max(currentLeft - step, 0),
+                    },
+                    direction: 'left'
+                });
+            } else if (event.key === 'ArrowUp') {
+                this.setState({
+                    position: {
+                        top: Math.max(currentTop - step, 0),
+                        left: currentLeft
+                    },
+                    direction: 'up'
+                })
             }
-
-            this.setState({
-                position: {
-                    top: currentTop,
-                    left: left,
-                },
-                direction: 'right'
-            });
-        } else if (event.key === 'ArrowDown') {
-            let top = ''
-            if (currentTop + step > window.innerHeight - size - border - topScoreboardHeight) {
-                top = currentTop
-            } else {
-                top = currentTop + step
-            }
-
-            this.setState({
-                position: {
-                    top: top,
-                    left: currentLeft
-                },
-                direction: 'down'
-            });
-        } else if (event.key === 'ArrowLeft') {
-            this.setState({
-                position: {
-                    top: currentTop,
-                    left: Math.max(currentLeft - step, 0),
-                },
-                direction: 'left'
-            });
-        } else if (event.key === 'ArrowUp') {
-            this.setState({
-                position: {
-                    top: Math.max(currentTop - step, 0),
-                    left: currentLeft
-                },
-                direction: 'up'
-            })
         }
+        
       
         // 39 right
         // 40 down

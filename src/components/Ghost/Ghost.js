@@ -5,10 +5,7 @@ import './style.css';
 class Ghost extends Component {
     state = {
         direction: 'left',
-        position: {
-            top: 50 * 3,
-            left: 50 * 3
-        }
+        position: this.props.position
     }
 
     changeDirection = () => {
@@ -19,8 +16,8 @@ class Ghost extends Component {
     }
 
     componentDidMount () {
-        this.changeDirectionInterval = setInterval(this.changeDirection,1000)
-        this.moveInterval = setInterval(this.move, 700)
+        this.changeDirectionInterval = setInterval(this.changeDirection,1500)
+        this.moveInterval = setInterval(this.move, 1500)
     }
     componentWillUnmount() {
         clearInterval(this.changeDirectionInterval);
@@ -28,6 +25,12 @@ class Ghost extends Component {
     }
 
     move = () => {
+        const stop = this.props.stop
+        if (stop && stop.current.state.gameOver) {
+            clearInterval(this.changeDirectionInterval);
+            clearInterval(this.moveInterval);
+            return
+        }
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
         const { direction } = this.state;
@@ -52,14 +55,14 @@ class Ghost extends Component {
             this.setState({
                 position: {
                     top: currentTop,
-                    left: Math.max(currentLeft - step, 5),
+                    left: Math.max(currentLeft - step, 0),
                 },
                 direction: 'left'
             });
         } else if (direction === 'up') {
             this.setState({
                 position: {
-                    top: Math.max(currentTop - step, 5),
+                    top: Math.max(currentTop - step, 0),
                     left: currentLeft
                 },
                 direction: 'up'
@@ -67,14 +70,21 @@ class Ghost extends Component {
         }
     }
 
+    constructor(props) {
+        super(props);
+        //create ref to pacman to use focus init
+        const name = 'ghostRef' + props.color
+        this[name] = React.createRef();
+    }
+
     render () {
-        const { direction, position } = this.state;
+        const { position } = this.state;
         const { color } = this.props
         return (
-            <div 
+            <div
                 style={position} 
                 className="ghost">
-               <GhostSvg className={`ghost-${color}`}/>
+               <GhostSvg className={`ghost${color}`}/>
             </div>
         )
     }
@@ -83,6 +93,7 @@ class Ghost extends Component {
 Ghost.defaultProps = {
     //all in px;
     color: 'red',
+    position: {top: 100, left: 150},
     step: 50, 
     size: 50,
     border: 20,

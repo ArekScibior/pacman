@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import Pacman from '../Pacman';
 import Ghost from '../Ghost'
+import Food from '../Food'
 import './style.css';
 
 class Board extends Component {
     render () {
         return (
             <div className="board">
-                {/* <Food /> */}
+                <Food position={{top: 100, left: 100}}/>
                 <Pacman />
-                {/* <Ghost color="red" />
-                <Ghost color="black" /> */}
+                <Ghost color="red" />
+                <Ghost color="black" />
                 <Ghost color="blue"/>
                 
             </div>

@@ -14,15 +14,13 @@ class Ghost extends Component {
     changeDirection = () => {
         const arrayMovements = ['left', 'up', 'right', 'down'];
         const movement = Math.floor(Math.random() * 4)
-        console.log(movement)
         this.setState({ direction: arrayMovements[movement] }, () => {
-            console.log('movement: ', this.state.direction)
         })
     }
 
     componentDidMount () {
         this.changeDirectionInterval = setInterval(this.changeDirection,1000)
-        this.moveInterval = setInterval(this.move, 1000)
+        this.moveInterval = setInterval(this.move, 700)
     }
     componentWillUnmount() {
         clearInterval(this.changeDirectionInterval);
@@ -33,7 +31,7 @@ class Ghost extends Component {
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
         const { direction } = this.state;
-        const {topScoreboardHeight, border, size, step} = this.props;
+        const {topScoreBoardHeight, border, size, step} = this.props;
         if (direction === 'right') {
             this.setState({
                 position: {
@@ -45,8 +43,7 @@ class Ghost extends Component {
         } else if (direction === 'down') {
             this.setState({
                 position: {
-                    top: currentTop + step,
-                    top: Math.min(currentTop + step, window.innerHeight - size - border/2),
+                    top: Math.min(currentTop + step, window.innerHeight - size - border - topScoreBoardHeight),
                     left: currentLeft
                 },
                 direction: 'down'
@@ -89,7 +86,7 @@ Ghost.defaultProps = {
     step: 50, 
     size: 50,
     border: 20,
-    topScoreboardHeight: 50
+    topScoreBoardHeight: 50,
 }
 
 export default Ghost;

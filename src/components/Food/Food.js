@@ -10,10 +10,14 @@ class Food extends Component {
         hidden: false
     }
 
+    ate() {
+        this.setState({ hidden: !this.hidden });
+    }
+
     render () {
         const {position, hidden} = this.state;
         return (
-            <div style={position} className={hidden ? 'food-hidden' : 'food'}>
+            <div style={position} className={hidden ? 'hidden' : 'food'}>
                 <div className='food-dot'></div>
             </div>
         )

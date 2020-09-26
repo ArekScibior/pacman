@@ -16,13 +16,15 @@ class Board extends Component {
             (window.innerWidth - foodSize) 
             * (window.innerHeight - topScoreboardHeight)   
         ) / (foodSize * foodSize) - 1
+        //console.log(window.innerWidth - foodSize)
+        console.log(window.innerHeight - topScoreboardHeight)
         for(let i=0 ; i < this.amountFood; i++) {
             this['food-'+i] = React.createRef();
         }
     }
 
     componentDidMount() {
-        this.intervalFood = setInterval(this.lookForEat, 10);
+        this.intervalFood = setInterval(this.lookForEat, 5);
     }
 
     componentWillUnmount() {

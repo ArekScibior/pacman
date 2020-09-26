@@ -18,17 +18,31 @@ class Pacman extends Component {
         const { step, border, size, topScoreboardHeight } = this.props;
         
         if (event.key === 'ArrowRight') {
+            let left = ''
+            if (currentLeft + step > window.innerWidth - border - size) {
+                left = currentLeft
+            } else {
+                left = currentLeft + step
+            }
+
             this.setState({
                 position: {
                     top: currentTop,
-                    left: Math.min(currentLeft + step, window.innerWidth - border - size),
+                    left: left,
                 },
                 direction: 'right'
             });
         } else if (event.key === 'ArrowDown') {
+            let top = ''
+            if (currentTop + step > window.innerHeight - size - border - topScoreboardHeight) {
+                top = currentTop
+            } else {
+                top = currentTop + step
+            }
+
             this.setState({
                 position: {
-                    top: Math.min(currentTop + step, window.innerHeight - size - border - topScoreboardHeight),
+                    top: top,
                     left: currentLeft
                 },
                 direction: 'down'

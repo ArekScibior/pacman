@@ -1,3 +1,5 @@
+This game has been written on workshop at www.SzkolaReacta.pl with Patryk Omiotek
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -6,7 +6,7 @@
 }
 
 .pacman:focus{
-    outline: 3px;
+    outline: none;
 }
 
 .pacman-right {

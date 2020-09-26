@@ -22,7 +22,7 @@ class Board extends Component {
     }
 
     componentDidMount() {
-        this.intervalFood = setInterval(this.lookForEat, 100);
+        this.intervalFood = setInterval(this.lookForEat, 10);
     }
 
     componentWillUnmount() {

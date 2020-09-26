@@ -1,7 +1,10 @@
 .header {
     height: 50px;
-    background-color: #ddd;
-    color: #000;
+    background-color: #1E1E1E;
+    color: #fff;
     padding-left: 10px;
     padding-right: 10px;
+    font-size:20px;
+    font-weight: bold;
+    line-height: 50px;
 }

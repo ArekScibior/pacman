@@ -11,7 +11,7 @@ class Pacman extends Component {
         }
     }
 
-    handlerKeyDown = (event) => {
+    handlerKey = (event) => {
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
         //here passed props (we have default props)
@@ -38,14 +38,14 @@ class Pacman extends Component {
             this.setState({
                 position: {
                     top: currentTop,
-                    left: Math.max(currentLeft - step, 0),
+                    left: Math.max(currentLeft - step, 5),
                 },
                 direction: 'left'
             });
         } else if (event.key === 'ArrowUp') {
             this.setState({
                 position: {
-                    top: Math.max(currentTop - step, 0),
+                    top: Math.max(currentTop - step, 5),
                     left: currentLeft
                 },
                 direction: 'up'
@@ -73,7 +73,7 @@ class Pacman extends Component {
         return (
             <div 
                 ref={this.pacmanRef}
-                onKeyDown={this.handlerKeyDown}
+                onKeyDown={this.handlerKey}
                 className={`pacman pacman-${direction}`}
                 tabIndex='0'
                 style={position}

@@ -16,8 +16,8 @@ class Board extends Component {
             (window.innerWidth - foodSize) 
             * (window.innerHeight - topScoreboardHeight)   
         ) / (foodSize * foodSize) - 1
-        //console.log(window.innerWidth - foodSize)
-        console.log(window.innerHeight - topScoreboardHeight)
+        console.log('width',window.innerWidth - foodSize)
+        console.log('heig',window.innerHeight - topScoreboardHeight)
         for(let i=0 ; i < this.amountFood; i++) {
             this['food-'+i] = React.createRef();
         }
@@ -69,11 +69,11 @@ class Board extends Component {
         let currentLeft = 1 * foodSize;
         console.log(this.amountFood)
         for (let i = 0; i < this.amountFood; i++) {
-            if (currentLeft + foodSize >= window.innerWidth - border) {
+            if (currentLeft + foodSize >= window.innerWidth) {
                 currentTop += foodSize;
                 currentLeft = 0;
             }
-            if (currentTop + foodSize >= (window.innerHeight - topScoreboardHeight - border)) {
+            if (currentTop + foodSize >= (window.innerHeight - topScoreboardHeight)) {
                 break;
             }
             const position = {left: currentLeft, top: currentTop};

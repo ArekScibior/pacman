@@ -5,7 +5,6 @@ class Pacman extends Component {
 
     state = {
         direction: 'right',
-
         position: {
             top: 5,
             left: 5,
@@ -13,12 +12,55 @@ class Pacman extends Component {
     }
 
     handlerKeyDown = (event) => {
-        console.log(event.keyCode, event.key);
+        const currentTop = this.state.position.top;
+        const currentLeft = this.state.position.left;
+        //here passed props (we have default props)
+        const { step, border, size, topScoreboardHeight } = this.props;
+        
+        if (event.key === 'ArrowRight') {
+            this.setState({
+                position: {
+                    top: currentTop,
+                    left: Math.min(currentLeft + step, window.innerWidth - border - size),
+                },
+                direction: 'right'
+            });
+        } else if (event.key === 'ArrowDown') {
+            this.setState({
+                position: {
+                    top: currentTop + step,
+                    top: Math.min(currentTop + step, window.innerHeight - size - border/2 - topScoreboardHeight),
+                    left: currentLeft
+                },
+                direction: 'down'
+            });
+        } else if (event.key === 'ArrowLeft') {
+            this.setState({
+                position: {
+                    top: currentTop,
+                    left: Math.max(currentLeft - step, 0),
+                },
+                direction: 'left'
+            });
+        } else if (event.key === 'ArrowUp') {
+            this.setState({
+                position: {
+                    top: Math.max(currentTop - step, 0),
+                    left: currentLeft
+                },
+                direction: 'up'
+            })
+        }
+      
+        // 39 right
+        // 40 down
+        // 37 left
+        // 38 up
     }
 
     constructor(props) {
         super(props);
-        //create ref to pacman
+        //create ref to pacman to use focus init
         this.pacmanRef = React.createRef();
     }
 
@@ -27,13 +69,14 @@ class Pacman extends Component {
     }
 
     render() {
+        const { direction, position } = this.state;
         return (
             <div 
                 ref={this.pacmanRef}
                 onKeyDown={this.handlerKeyDown}
-                className='pacman'
+                className={`pacman pacman-${direction}`}
                 tabIndex='0'
-                style={this.state.position}
+                style={position}
             >
                 <PacmanSvg />
             </div>
@@ -41,7 +84,7 @@ class Pacman extends Component {
     }
 }
 
-Pacman.defultProps = {
+Pacman.defaultProps = {
     //all in px;
     step: 50, 
     size: 50,

@@ -4,3 +4,19 @@
     height: 50px;
     
 }
+
+.pacman:focus{
+    outline: 3px;
+}
+
+.pacman-right {
+}
+.pacman-left {
+    transform: rotateY(180deg);
+}
+.pacman-up {
+    transform: rotate(-90deg);
+}
+.pacman-down {
+    transform: rotate(90deg);
+}
